@@ -1,6 +1,7 @@
 package com.example.diet_tracker
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -17,8 +18,6 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
-    // private lateinit var firstName: EditText
-    // private lateinit var lastName: EditText
     private lateinit var email: EditText
     private lateinit var password : EditText
     private lateinit var retypePassword : EditText
@@ -31,8 +30,12 @@ class RegisterActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        getUIFields()
 
+        email = findViewById(R.id.registerEmailAddress)
+        password = findViewById(R.id.registerPassword)
+        retypePassword = findViewById(R.id.registerRetypePassword)
+
+        registerButton = findViewById(R.id.registerSubmit)
 
 
         registerButton.setOnClickListener{
@@ -40,11 +43,16 @@ class RegisterActivity : AppCompatActivity() {
             var fieldResult: String = checkFields()
 
             if(fieldResult.isEmpty()) {
-                auth.createUserWithEmailAndPassword(email.toString(), password.toString())
+                auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                     .addOnCompleteListener(this) { task ->
                         if(task.isSuccessful) {
                             Log.d(TAG, "createUserWithEmail:success")
                             val user = auth.currentUser
+
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.exception)
                             Toast.makeText(baseContext, "Authentication failed.",
@@ -58,21 +66,11 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    private fun getUIFields() {
-        // firstName = findViewById(R.id.registerFirstName)
-        // lastName = findViewById(R.id.registerLastName)
-        email = findViewById(R.id.registerEmailAddress)
-        password = findViewById(R.id.registerPassword)
-        retypePassword = findViewById(R.id.registerRetypePassword)
-
-        registerButton = findViewById(R.id.registerSubmit)
-
-    }
 
     private fun checkFields(): String {
-        var e = email.toString()
-        var p = password.toString()
-        var rp = password.toString()
+        var e = email.text.toString()
+        var p = password.text.toString()
+        var rp = password.text.toString()
 
         if( p != rp) {
             return "Passwords don't match"
@@ -81,6 +79,7 @@ class RegisterActivity : AppCompatActivity() {
         if(TextUtils.isEmpty(e) || TextUtils.isEmpty(p)) {
             return "Fields are empty"
         }
+
 
         return ""
     }
