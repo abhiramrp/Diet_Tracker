@@ -47,6 +47,7 @@ class RegisterActivity : AppCompatActivity() {
                     .addOnCompleteListener(this) { task ->
                         if(task.isSuccessful) {
                             Log.d(TAG, "createUserWithEmail:success")
+                            Toast.makeText(baseContext, "Registered", Toast.LENGTH_SHORT).show()
                             val user = auth.currentUser
 
                             val intent = Intent(this, MainActivity::class.java)

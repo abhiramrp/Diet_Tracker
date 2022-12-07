@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.auth.FirebaseAuth
@@ -71,6 +72,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "user signed out")
 
                 auth.signOut()
+
+                Toast.makeText(baseContext, "Logged out!", Toast.LENGTH_SHORT).show()
 
                 finish()
                 startActivity(this.intent);
