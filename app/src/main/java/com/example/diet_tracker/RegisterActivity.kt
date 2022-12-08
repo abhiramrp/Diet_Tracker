@@ -50,7 +50,7 @@ class RegisterActivity : AppCompatActivity() {
                             Toast.makeText(baseContext, "Registered", Toast.LENGTH_SHORT).show()
                             val user = auth.currentUser
 
-                            val intent = Intent(this, MainActivity::class.java)
+                            val intent = Intent(this, HomeActivity::class.java)
                             startActivity(intent)
                             finish()
 
